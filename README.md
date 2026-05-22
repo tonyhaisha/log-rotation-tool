@@ -6,8 +6,16 @@
 Для того, чтобы тул работал как CLI-утилита, следует поместить log-rotate в /usr/local/bin/
   ```bash
 #У всех пользователей:
-sudo mv log-rotate /usr/local/bin
+sudo mv log-rotate /usr/local/bin/
 
 #Только у нынешнего пользователя:
 mkdir -p ~/.local/bin
 mv log-rotate ~/.local/bin/
+  ```
+Команда может иметь следующие виды:
+  ```bash
+#Используется для переноса архива в локальную директорию
+log-rotate log-dir directory
+#Используется для переноса архива на удаленный сервер
+log-rotate log-dir remote-user remote-server remote-dir
+  ```
