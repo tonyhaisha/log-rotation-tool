@@ -16,6 +16,7 @@ mv log-rotate ~/.local/bin/
   ```bash
 #Используется для переноса архива в локальную директорию
 log-rotate log-dir directory
+
 #Используется для переноса архива на удаленный сервер
 log-rotate log-dir remote-user remote-server remote-dir
   ```
