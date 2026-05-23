@@ -20,3 +20,8 @@ log-rotate log-dir directory
 #Используется для переноса архива на удаленный сервер
 log-rotate log-dir remote-user remote-server remote-dir
   ```
+После успешной архивации и переноса архива на удаленный сервер/локальную директорию, есть возможность удалить исходные файлы логов:
+  ```bash
+Do you wanto to delete source files? (y/any symbol)
+  ```
+Нажимаем y, если нужно, иначе - любой символ
