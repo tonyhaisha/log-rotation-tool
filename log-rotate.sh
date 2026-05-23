@@ -1,10 +1,9 @@
 #!/bin/bash
 
 ARGFILE=$1
-#REMOTE_USER=server
-#REMOTE_HOST=UbuntuBackups
 REMOTE_USER_OR_DIR=$2
 REMOTE_HOST=$3
+REMOTE_DIR=$4
 
 if [ $1 ]; then
 	if [ $2 ]; then
@@ -19,19 +18,27 @@ fi
 
 if [ $2 ]; then
 	if [ $3 ]; then
-		echo "Sending files to" $REMOTE_HOST as $REMOTE_USER_OR_DIR
-		scp $ARGFILE-$(date "+%F").tar.gz $REMOTE_USER_OR_DIR@$REMOTE_HOST:/logs_rotate/
+		if [ $4 ]; then
+			echo "Sending files to" $REMOTE_HOST as $REMOTE_USER_OR_DIR
+			scp $ARGFILE-$(date "+%F").tar.gz $REMOTE_USER_OR_DIR@$REMOTE_HOST:$REMOTE_DIR
+		else
+			echo "Missing target directory"
+			rm $ARGFILE-$(date "+%F").tar.gz
+			exit 1
+		fi
 	else
 		echo "Saving files in" $REMOTE_USER_OR_DIR
 		if [ -d "$REMOTE_USER_OR_DIR" ]; then
 			cp -rv $ARGFILE-$(date "+%F").tar.gz $REMOTE_USER_OR_DIR
 		else
 			echo "Cannot save files in" $REMOTE_USER_OR_DIR "- directory doesn't exist"
+			rm $ARGFILE-$(date "+%F").tar.gz
 			exit 1
 		fi
 	fi
 else
 	echo "Invalid arguments"
+	rm $ARGFILE-$(date "+%F").tar.gz
 	exit 1
 fi
 echo "Done!"
@@ -42,9 +49,9 @@ read SYMBOL
 if [ "$SYMBOL" == "y" ]; then
 	echo "Removing source file..."
 	rm -rv $ARGFILE
+	rm $ARGFILE-$(date "+%F").tar.gz
 else
 	echo "Source file won't be deleted"
 fi
-
+rm $ARGFILE-$(date "+%F").tar.gz
 echo "Done!"
-
